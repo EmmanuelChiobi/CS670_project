@@ -10,6 +10,13 @@ Real-time CCTV / webcam integration for our
 - Displays FPS on the video
 """
 
+from ultralytics.nn.tasks import DetectionModel
+from torch.serialization import add_safe_globals
+
+# FIX for PyTorch 2.8 (weights_only=True unpickling)
+# This allows YOLO to load best.pt safely
+add_safe_globals([DetectionModel])
+
 from ultralytics import YOLO
 import cv2
 import time
@@ -19,13 +26,12 @@ import time
 # ---------------------------------------------------
 
 # 1) Path to your trained weights (update if needed)
-MODEL_PATH = "runs/weapon_yolov8/yolov8s_weapon/weights/best.pt"
-# e.g. "runs/detect/train/weights/best.pt" depending on your training folder
+MODEL_PATH = "best.pt"     # Keep your best.pt in the same folder as this script
 
 # 2) CCTV / Webcam source:
 #    - 0  -> laptop webcam
 #    - "rtsp://user:pass@ip:554/Streaming/Channels/101" -> CCTV RTSP URL
-VIDEO_SOURCE = 0  # change to your RTSP URL when you have it
+VIDEO_SOURCE = 0
 
 
 def main():
@@ -52,15 +58,10 @@ def main():
             break
 
         # Run YOLO inference on the current frame
-        results = model.predict(
-            source=frame,
-            imgsz=640,
-            conf=0.5,
-            verbose=False
-        )
+        results = model(frame, verbose=False)
 
         # YOLO returns a list of Results; take the first and plot detections
-        annotated_frame = results[0].plot()  # BGR image with boxes/labels
+        annotated_frame = results[0].plot()
 
         # FPS calculation
         frame_count += 1
