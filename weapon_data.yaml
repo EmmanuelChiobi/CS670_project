@@ -1,0 +1,7 @@
+
+path: /kaggle/input/weapon-detection-test/weapon_detection
+train: /kaggle/input/weapon-detection-test/weapon_detection/train/images
+val: /kaggle/input/weapon-detection-test/weapon_detection/val/images
+
+nc: 9
+names: ['Automatic Rifle', 'Bazooka', 'Grenade Launcher', 'Handgun', 'Knife', 'Shotgun', 'SMG', 'Sniper', 'Sword']

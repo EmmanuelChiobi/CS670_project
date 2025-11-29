@@ -31,7 +31,8 @@ MODEL_PATH = "best.pt"     # Keep your best.pt in the same folder as this script
 # 2) CCTV / Webcam source:
 #    - 0  -> laptop webcam
 #    - "rtsp://user:pass@ip:554/Streaming/Channels/101" -> CCTV RTSP URL
-VIDEO_SOURCE = 0
+VIDEO_SOURCE = "test_weapon.mp4"
+
 
 
 def main():
